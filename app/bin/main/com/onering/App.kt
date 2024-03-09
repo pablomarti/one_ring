@@ -1,4 +1,4 @@
-package com.one_ring
+package com.onering
 
 import org.apache.beam.sdk.Pipeline
 import org.apache.beam.sdk.io.kafka.KafkaIO
@@ -8,6 +8,9 @@ import org.apache.beam.sdk.options.PipelineOptionsFactory
 import org.apache.beam.sdk.transforms.Values
 import org.apache.kafka.common.serialization.LongDeserializer
 import org.apache.kafka.common.serialization.StringDeserializer
+import org.joda.time.Duration
+import org.apache.beam.sdk.transforms.windowing.FixedWindows
+import org.apache.beam.sdk.transforms.windowing.Window
 
 fun main(args: Array<String>) {
     val options = PipelineOptionsFactory.fromArgs(*args).withValidation().`as`(PipelineOptions::class.java)
@@ -26,7 +29,14 @@ fun main(args: Array<String>) {
     pipeline
         .apply("ReadFromKafka", kafkaSource)
         .apply("ExtractValues", Values.create<String>())
-        .apply("WriteToFile", TextIO.write().to("outputs/messages.txt"))
+        .apply("Window",
+            Window.into<String>(FixedWindows.of(Duration(500)))
+        )
+        .apply("WriteToFile", TextIO.write().to("output/messages")
+            .withWindowedWrites()
+            .withNumShards(1)
+            .withSuffix(".txt")
+        )
 
     pipeline.run().waitUntilFinish()
 }

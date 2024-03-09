@@ -6,7 +6,7 @@
  * This project uses @Incubating APIs which are subject to change.
  */
 
-val BEAM_VERSION = "2.54.0"
+val BEAM_VERSION = "2.52.0"
 
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
@@ -19,16 +19,19 @@ plugins {
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
+    maven {
+        url = uri("https://packages.confluent.io/maven/")
+    }
 }
 
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
     implementation("org.apache.beam:beam-sdks-java-core:$BEAM_VERSION")
-    implementation("org.apache.beam:beam-runners-flink-1.16:$BEAM_VERSION")
+    runtimeOnly("org.apache.beam:beam-runners-flink-1.16:$BEAM_VERSION")
     implementation("org.apache.beam:beam-sdks-java-io-kafka:$BEAM_VERSION")
-    implementation("org.apache.beam:beam-runners-direct-java:$BEAM_VERSION")
-    implementation("org.apache.kafka:kafka-clients:3.7.0")
+    runtimeOnly("org.apache.beam:beam-runners-direct-java:$BEAM_VERSION")
+    implementation("org.apache.kafka:kafka-clients:3.6.0")
 }
 
 testing {
@@ -50,5 +53,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.AppKt"
+    mainClass = "com.onering.AppKt"
 }
