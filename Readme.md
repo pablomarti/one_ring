@@ -1,6 +1,11 @@
 # One Ring
 
-Beam Pipeline that runs with the Flink Runner. It consumes from a Kafka topic and writes the messages to a text file.
+Beam Pipeline built with Kolin that runs with the Flink Runner. It consumes from a Kafka topic and writes the messages to a text file.
+
+For running this pipeline locally you will need:
+- Start the Kafka brokers and produce messages
+- Start Flink
+- Build and run the Beam pipeline
 
 ### Run Kafka
 
@@ -20,8 +25,18 @@ Build the fat jar:
 ./gradlew shadowJar
 ```
 
+#### Run the pipeline using the DirectRunner
+
+```
+./gradlew run
+```
+
+#### Run the pipeline using the FlinkRunner
+
 In the Flink directory run the jar:
 
 ```
 ./bin/flink run [path to the jar]/app.jar-0.1.0-all.jar
 ```
+
+You can also go to the Flink Dashboard and upload the jar at: Submit New Job. It may take a few minutes to run the pipeline at Flink.
