@@ -18,7 +18,7 @@ with the topic: `nazgul`. If you clone from the repo you will need to build the 
 ### Run Flink
 
 Similar to Kafka you can clone the repo from https://github.com/apache/flink or download the tar from https://flink.apache.org/downloads/. I think the best is to work with
-Flink 1.16.3 for compatibility with the Beam connector, you can start the service with: `./bin/start-cluster.sh`.
+Flink 1.16.3 for compatibility with the Beam connector, you can start the service with: `./bin/start-cluster.sh`. And you can stop it with `./bin/stop-cluster.sh`.
 
 ### Run the pipeline
 
