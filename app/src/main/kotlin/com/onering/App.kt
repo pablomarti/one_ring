@@ -38,5 +38,5 @@ fun main(args: Array<String>) {
             .withSuffix(".txt")
         )
 
-    pipeline.run().waitUntilFinish()
+    pipeline.run()
 }

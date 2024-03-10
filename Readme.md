@@ -39,9 +39,7 @@ Build the fat jar:
 In the Flink directory run the jar:
 
 ```
-./bin/flink run [path to the jar]/app.jar-0.1.0-all.jar
+./bin/flink run [path to the jar]/app.jar-0.1.0-all.jar --runner=FlinkRunner
 ```
 
 You can also go to the Flink Dashboard and upload the jar at: Submit New Job. It may take a few minutes to run the pipeline at Flink.
-
-Note: this is currently not working on my machine, and it is also not throwing any error, I think I need to add additional configurations for Flink.
