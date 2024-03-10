@@ -7,6 +7,9 @@ For running this pipeline locally you will need:
 - Start Flink
 - Build and run the Beam pipeline
 
+Note: Flink works only with Java 11 or 8, so this project works with Java 11, and because of that I decided to go with Kotlin to get the nice features that
+we are missing from newer Java versions. For Dataflow this could work with Java 19.
+
 ### Run Kafka
 
 You can clone the Kafka mirror from https://github.com/apache/kafka and follow these steps to start the services and produce the messages. Here we work
@@ -40,3 +43,5 @@ In the Flink directory run the jar:
 ```
 
 You can also go to the Flink Dashboard and upload the jar at: Submit New Job. It may take a few minutes to run the pipeline at Flink.
+
+Note: this is currently not working on my machine, and it is also not throwing any error, I think I need to add additional configurations for Flink.
