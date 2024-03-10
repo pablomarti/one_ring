@@ -43,3 +43,6 @@ In the Flink directory run the jar:
 ```
 
 You can also go to the Flink Dashboard and upload the jar at: Submit New Job. It may take a few minutes to run the pipeline at Flink.
+
+<img width="1896" alt="Screenshot 2024-03-10 at 03 38 26" src="https://github.com/pablomarti/one_ring/assets/672530/cf2968e1-a625-46b7-a090-bd4dafaeb796">
+
