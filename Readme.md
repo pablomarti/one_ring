@@ -1,6 +1,6 @@
 # One Ring
 
-Beam Pipeline built with Kolin that runs with the Flink Runner. It consumes from a Kafka topic and writes the messages to a text file.
+Beam Pipeline built with Kotlin that runs with the Flink Runner. It consumes from a Kafka topic and writes the messages to a text file.
 
 For running this pipeline locally you will need:
 - Start the Kafka brokers and produce messages
