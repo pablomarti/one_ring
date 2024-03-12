@@ -1,42 +1,23 @@
 package com.onering
 
-import org.apache.beam.sdk.Pipeline
-import org.apache.beam.sdk.io.kafka.KafkaIO
-import org.apache.beam.sdk.io.TextIO
-import org.apache.beam.sdk.options.PipelineOptions
-import org.apache.beam.sdk.options.PipelineOptionsFactory
-import org.apache.beam.sdk.transforms.Values
-import org.apache.kafka.common.serialization.LongDeserializer
-import org.apache.kafka.common.serialization.StringDeserializer
-import org.joda.time.Duration
-import org.apache.beam.sdk.transforms.windowing.FixedWindows
-import org.apache.beam.sdk.transforms.windowing.Window
+import com.onering.pipelines.*
 
 fun main(args: Array<String>) {
-    val options = PipelineOptionsFactory.fromArgs(*args).withValidation().`as`(PipelineOptions::class.java)
-    val pipeline = Pipeline.create(options)
+    val argMap = args.mapNotNull {
+        val split = it.split("=")
+        if (split.size == 2) split[0] to split[1] else null
+    }.toMap()
 
-    val kafkaSource = KafkaIO.read<Long, String>()
-        .withBootstrapServers("localhost:9092")
-        .withTopic("nazgul")
-        .withKeyDeserializer(LongDeserializer::class.java)
-        .withValueDeserializer(StringDeserializer::class.java)
-        .withConsumerConfigUpdates(mapOf(
-            "auto.offset.reset" to "earliest"
-        ))
-        .withoutMetadata()
+    println("Running pipeline: $argMap - ${argMap["--pipelineName"]}")
 
-    pipeline
-        .apply("ReadFromKafka", kafkaSource)
-        .apply("ExtractValues", Values.create<String>())
-        .apply("Window",
-            Window.into<String>(FixedWindows.of(Duration(500)))
-        )
-        .apply("WriteToFile", TextIO.write().to("output/messages")
-            .withWindowedWrites()
-            .withNumShards(1)
-            .withSuffix(".txt")
-        )
+    val pipelineName = argMap["--pipelineName"] ?: throw IllegalArgumentException("Pipeline required")
 
-    pipeline.run()
+    val pipeline: Pipeline = when (pipelineName) {
+        "KafkaToText" -> KafkaToText()
+        else -> {
+            throw IllegalArgumentException("Unknown pipeline: $pipelineName")
+        }
+    }
+
+    pipeline.run(args)
 }
